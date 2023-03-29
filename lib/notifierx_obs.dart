@@ -9,15 +9,13 @@ class NotifierXObs<T extends NotifierXListener> extends StatefulWidget {
   final Widget Function(BuildContext context, T notifier) error;
   final Widget Function(BuildContext context, T notifier) build;
 
-  const NotifierXObs(
-    {
-      required this.notifier,
-      required this.build,
-      required this.loading,
-      required this.error,
-      super.key
-    }
-  );
+  const NotifierXObs({
+    required this.notifier,
+    required this.build,
+    required this.loading,
+    required this.error,
+    super.key
+  });
 
   @override
   State<StatefulWidget> createState() => _NotifierXObsState<T>();
