@@ -3,15 +3,17 @@ import 'package:notifierx/notifierx_listener.dart';
 
 class NotifierXObs<T extends NotifierXListener> extends StatefulWidget {
   final T notifier;
-  final Widget Function(BuildContext context, T value) builder;
+  final Widget Function(BuildContext context, T notifier) builder;
 
-  const NotifierXObs({required this.builder, required this.notifier, super.key});
+  const NotifierXObs(
+      {required this.builder, required this.notifier, super.key});
 
   @override
   State<StatefulWidget> createState() => _NotifierXObsState<T>();
 }
 
-class _NotifierXObsState<T extends NotifierXListener> extends State<NotifierXObs<T>> {
+class _NotifierXObsState<T extends NotifierXListener>
+    extends State<NotifierXObs<T>> {
   late T notifier;
 
   @override
@@ -27,7 +29,6 @@ class _NotifierXObsState<T extends NotifierXListener> extends State<NotifierXObs
     widget.notifier.onClose();
     super.dispose();
   }
-
 
   @override
   void didChangeDependencies() {

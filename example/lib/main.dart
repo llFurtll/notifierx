@@ -17,39 +17,38 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              NotifierXObs(
-                notifier: countNotifier,
-                builder: (context, notifier) {
-                  return Text("${notifier.count}");
-                },
-              ),
-              NotifierXObs(
-                notifier: randomNotifier,
-                builder: (context, notifier) {
-                  return Text("${notifier.random}");
-                },
-              )
-            ],
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                NotifierXObs<CountNotifier>(
+                  notifier: countNotifier,
+                  builder: (context, notifier) {
+                    return Text("${notifier.count}");
+                  },
+                ),
+                NotifierXObs<RandomNotifier>(
+                  notifier: randomNotifier,
+                  builder: (context, notifier) {
+                    return Text("${notifier.random}");
+                  },
+                )
+              ],
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            countNotifier.increment();
-            randomNotifier.generate();
-          },
-          child: const Icon(Icons.add),
-        ),
-      )
-    );
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              countNotifier.increment();
+              randomNotifier.generate();
+            },
+            child: const Icon(Icons.add),
+          ),
+        ));
   }
 }
 
@@ -62,21 +61,15 @@ class CountNotifier extends NotifierXListener {
   }
 
   get count => _count;
-  
+
   @override
-  void onClose() {
-    
-  }
-  
+  void onClose() {}
+
   @override
-  void onDependencies() {
-    
-  }
-  
+  void onDependencies() {}
+
   @override
-  void onInit() {
-    
-  }
+  void onInit() {}
 }
 
 class RandomNotifier extends NotifierXListener {
@@ -88,19 +81,13 @@ class RandomNotifier extends NotifierXListener {
   }
 
   get random => _random;
-  
+
   @override
-  void onClose() {
-    
-  }
-  
+  void onClose() {}
+
   @override
-  void onDependencies() {
-    
-  }
-  
+  void onDependencies() {}
+
   @override
-  void onInit() {
-    
-  }
+  void onInit() {}
 }
