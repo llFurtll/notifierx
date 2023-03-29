@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:notifierx/notifierx_listener.dart';
 
+import 'notifierx_state.dart';
+
 class NotifierXObs<T extends NotifierXListener> extends StatefulWidget {
   final T notifier;
-  final Widget Function(BuildContext context, T notifier) builder;
+  final Widget Function(BuildContext context, T notifier) loading;
+  final Widget Function(BuildContext context, T notifier) error;
+  final Widget Function(BuildContext context, T notifier) build;
 
   const NotifierXObs(
-      {required this.builder, required this.notifier, super.key});
+    {
+      required this.notifier,
+      required this.build,
+      required this.loading,
+      required this.error,
+      super.key
+    }
+  );
 
   @override
   State<StatefulWidget> createState() => _NotifierXObsState<T>();
@@ -52,5 +63,14 @@ class _NotifierXObsState<T extends NotifierXListener>
   }
 
   @override
-  Widget build(BuildContext context) => widget.builder(context, notifier);
+  Widget build(BuildContext context) {
+    switch (notifier.state) {
+      case NotifierXState.loading:
+        return widget.loading(context, notifier);
+      case NotifierXState.error:
+        return widget.error(context, notifier);
+      default:
+        return widget.build(context, notifier);
+    }
+  }
 }
