@@ -2,9 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:notifierx/notifierx_state.dart';
 
 abstract class NotifierXListener extends ChangeNotifier {
-  NotifierXState state;
-
-  NotifierXListener({this.state = NotifierXState.ready});
+  NotifierXState state = NotifierXState.ready;
 
   void onInit();
   void onClose();
