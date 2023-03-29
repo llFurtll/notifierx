@@ -23,8 +23,7 @@ class NotifierXObs<T extends NotifierXListener> extends StatefulWidget {
   State<StatefulWidget> createState() => _NotifierXObsState<T>();
 }
 
-class _NotifierXObsState<T extends NotifierXListener>
-    extends State<NotifierXObs<T>> {
+class _NotifierXObsState<T extends NotifierXListener> extends State<NotifierXObs<T>> {
   late T notifier;
 
   @override
