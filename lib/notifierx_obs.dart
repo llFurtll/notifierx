@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:notifierx/notifierx_listener.dart';
 
+import 'notifierx_dependencies.dart';
+import 'notifierx_listener.dart';
 import 'notifierx_state.dart';
 
 class NotifierXObs<T extends NotifierXListener> extends StatefulWidget {
-  final T notifier;
+  final BuildContext context;
   final Widget Function(BuildContext context, T notifier) loading;
   final Widget Function(BuildContext context, T notifier) error;
   final Widget Function(BuildContext context, T notifier) build;
 
   const NotifierXObs({
-    required this.notifier,
+    required this.context,
     required this.build,
     required this.loading,
     required this.error,
@@ -27,30 +28,21 @@ class _NotifierXObsState<T extends NotifierXListener> extends State<NotifierXObs
   @override
   void initState() {
     super.initState();
-    widget.notifier.addListener(_handleChange);
-    widget.notifier.onInit();
-    notifier = widget.notifier;
+    notifier = NotifierXDependencies.of<T>(widget.context, T.runtimeType);
+    notifier.addListener(_handleChange);
+    notifier.onInit();
   }
 
   @override
   void dispose() {
-    widget.notifier.onClose();
+    notifier.onClose();
     super.dispose();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    widget.notifier.onDependencies();
-  }
-
-  @override
-  void didUpdateWidget(NotifierXObs<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.notifier != oldWidget.notifier) {
-      oldWidget.notifier.removeListener(_handleChange);
-      widget.notifier.addListener(_handleChange);
-    }
+    notifier.onDependencies();
   }
 
   void _handleChange() {
