@@ -33,6 +33,7 @@ dependencies:
     sdk: flutter
   notifierx:
     path: ../
+  path_provider: ^2.0.14
 
 
   # The following adds the Cupertino Icons font to your application.
