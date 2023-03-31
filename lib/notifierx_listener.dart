@@ -1,25 +1,39 @@
 import 'package:flutter/widgets.dart';
-import 'package:notifierx/notifierx_state.dart';
+
+import 'notifierx_mediator.dart';
+import 'notifierx_state.dart';
 
 abstract class NotifierXListener extends ChangeNotifier {
+  final mediator = NotifierXMediator();
+  
   NotifierXState state = NotifierXState.ready;
+  
+  @mustCallSuper
+  void onInit() {
+    mediator.register(this);
+  }
 
-  void onInit();
-  void onClose();
-  void onDependencies();
+  @mustCallSuper
+  void onClose() {
+    mediator.unregister(this);
+  }
 
-  setLoading() {
+  void onDependencies() {}
+
+  void setLoading() {
     state = NotifierXState.loading;
     notifyListeners();
   }
 
-  setReady() {
+  void setReady() {
     state = NotifierXState.ready;
     notifyListeners();
   }
 
-  setError() {
+  void setError() {
     state = NotifierXState.error;
     notifyListeners();
   }
+
+  void receive(String message) {}
 }

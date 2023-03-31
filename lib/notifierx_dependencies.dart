@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 
 import 'notifierx_listener.dart';
 
-class NotifierXDependencies<T extends NotifierXListener> extends InheritedWidget {
-  final List<T Function()> created;
+class NotifierXDependencies extends InheritedWidget {
+  final List<NotifierXListener Function()> created;
 
   static final dependencies = <NotifierXListener>[];
 
@@ -20,10 +20,10 @@ class NotifierXDependencies<T extends NotifierXListener> extends InheritedWidget
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
 
-  static I of<I extends NotifierXListener>(BuildContext context, Type type) {
+  static I of<I extends NotifierXListener>(BuildContext context) {
     final inherited = context.dependOnInheritedWidgetOfExactType<NotifierXDependencies>();
-    assert(inherited != null, "Injections not configured");
+    assert(inherited != null, "Unconfigured injections");
     
-    return dependencies.firstWhere((element) => element.runtimeType == type) as I;
+    return dependencies.whereType<I>().first;
   }
 }

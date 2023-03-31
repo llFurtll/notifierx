@@ -6,15 +6,15 @@ import 'notifierx_state.dart';
 
 class NotifierXObs<T extends NotifierXListener> extends StatefulWidget {
   final BuildContext context;
-  final Widget Function(BuildContext context, T notifier) loading;
-  final Widget Function(BuildContext context, T notifier) error;
+  final Widget Function(BuildContext context, T notifier)? loading;
+  final Widget Function(BuildContext context, T notifier)? error;
   final Widget Function(BuildContext context, T notifier) build;
 
   const NotifierXObs({
     required this.context,
     required this.build,
-    required this.loading,
-    required this.error,
+    this.loading,
+    this.error,
     super.key
   });
 
@@ -28,11 +28,11 @@ class _NotifierXObsState<T extends NotifierXListener> extends State<NotifierXObs
   @override
   void initState() {
     super.initState();
-    notifier = NotifierXDependencies.of<T>(widget.context, T.runtimeType);
+    notifier = NotifierXDependencies.of<T>(widget.context);
     notifier.addListener(_handleChange);
     notifier.onInit();
   }
-
+  
   @override
   void dispose() {
     notifier.onClose();
@@ -55,9 +55,17 @@ class _NotifierXObsState<T extends NotifierXListener> extends State<NotifierXObs
   Widget build(BuildContext context) {
     switch (notifier.state) {
       case NotifierXState.loading:
-        return widget.loading(context, notifier);
+        if (widget.loading == null) {
+          return widget.build(context, notifier);
+        }
+
+        return widget.loading!(context, notifier);
       case NotifierXState.error:
-        return widget.error(context, notifier);
+        if (widget.error == null) {
+          return widget.build(context, notifier);
+        }
+
+        return widget.error!(context, notifier);
       default:
         return widget.build(context, notifier);
     }
