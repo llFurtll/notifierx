@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notifierx/notifierx_obs.dart';
 
+import '../../form_person/pages/form_person.dart';
 import '../notifiers/list_person_notifier.dart';
 
 class ListPerson extends StatelessWidget {
@@ -11,6 +12,7 @@ class ListPerson extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(context),
+      floatingActionButton: _buildFab(context),
     );
   }
 
@@ -54,6 +56,13 @@ class ListPerson extends StatelessWidget {
           )
         );
       },
+    );
+  }
+
+  FloatingActionButton _buildFab(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () => showDialog(context: context, builder: (innerContext) => const FormPerson()),
+      child: const Icon(Icons.add),
     );
   }
 }

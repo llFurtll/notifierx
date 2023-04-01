@@ -7,4 +7,20 @@ class PersonModel extends Person {
     required super.sobrenome,
     required super.dataNascimento
   });
+
+  factory PersonModel.fromMap(Map data) {
+    return PersonModel(
+      id: data["id"],
+      nome: data["nome"],
+      sobrenome: data["sobrenome"],
+      dataNascimento: DateTime.parse(data["dataNascimento"])
+    );
+  }
+
+  Map<int, PersonModel> toJson() {
+    final Map<int, PersonModel> data = {};
+    data[id!] = this;
+
+    return data; 
+  }
 }

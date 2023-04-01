@@ -1,6 +1,7 @@
+import 'dart:io';
+
 import 'package:notifierx/notifierx_listener.dart';
 
-import '../../../../../core/adapters/path_provider_adapter.dart';
 import '../../../../../core/datasource/data_source.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../../data/datasources/person_file_data_source.dart';
@@ -39,10 +40,8 @@ class ListPersonNotifier extends NotifierXListener {
   }
 }
 
-ListPersonNotifier createListPersonNotifier() {
-  final pathProvider = PathProviderAdapterImpl();
-  final fileDataSource = FileDataSource(pathProvider: pathProvider);
-  final dataSource = PersonFileDataSourceImpl(fileDataSource);
+ListPersonNotifier createListPersonNotifier(List<dynamic> global) {
+  final dataSource = PersonFileDataSourceImpl(global.whereType<DataSource<File>>().first);
   final repository = PersonRepositoryImpl(dataSource);
   final getFindAllPerson = GetFindAllPerson(repository);
 

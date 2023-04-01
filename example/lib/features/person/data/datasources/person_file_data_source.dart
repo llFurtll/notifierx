@@ -24,7 +24,7 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
     final db = await dataSource.getDataSource();
     if (db == null) throw FileException("");
 
-    var json = jsonDecode(db.readAsStringSync()) as Map<int, PersonModel>;
+    var json = jsonDecode(db.readAsStringSync());
     json.remove(id);
   }
 
@@ -39,9 +39,9 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
       return result;
     }
 
-    var json = jsonDecode(db.readAsStringSync()) as Map<int, PersonModel>;
+    var json = jsonDecode(db.readAsStringSync()) as Map;
     json.forEach((key, value) {
-      result.add(value);
+      result.add(PersonModel.fromMap(value));
     });
 
     return result;
@@ -54,9 +54,16 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
   }
 
   @override
-  Future<PersonModel> insert({required PersonModel person}) {
-    // TODO: implement insert
-    throw UnimplementedError();
+  Future<PersonModel> insert({required PersonModel person}) async {
+    final db = await dataSource.getDataSource();
+    if (db == null) throw FileException("");
+
+    var json = jsonDecode(db.readAsStringSync()) as Map;
+    json.addAll(person.toJson());
+    
+    db.writeAsStringSync(jsonEncode(json));
+
+    return person;
   }
 
   @override

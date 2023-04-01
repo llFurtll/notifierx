@@ -3,17 +3,19 @@ import 'package:flutter/widgets.dart';
 import 'notifierx_listener.dart';
 
 class NotifierXDependencies extends InheritedWidget {
-  final List<NotifierXListener Function()> created;
+  final List<NotifierXListener Function(List<dynamic> global)> created;
+  final List<dynamic> global;
 
   static final dependencies = <NotifierXListener>[];
 
   NotifierXDependencies({
     super.key,
+    this.global = const [],
     required this.created,
     required super.child
   }) {
     for (var function in created) {
-      dependencies.add(function());
+      dependencies.add(function(global));
     }
   }
 
