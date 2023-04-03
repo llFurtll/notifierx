@@ -5,8 +5,9 @@ import 'notifierx_state.dart';
 
 abstract class NotifierXListener extends ChangeNotifier {
   final mediator = NotifierXMediator();
-  
+
   NotifierXState state = NotifierXState.ready;
+  late BuildContext context;
   
   @mustCallSuper
   void onInit() {

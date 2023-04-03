@@ -3,6 +3,7 @@ import 'package:notifierx/notifierx_obs.dart';
 
 import '../../form_person/pages/form_person.dart';
 import '../notifiers/list_person_notifier.dart';
+import '../widgets/item_list_person_widget.dart';
 
 class ListPerson extends StatelessWidget {
   const ListPerson({super.key});
@@ -37,8 +38,13 @@ class ListPerson extends StatelessWidget {
           );
         }
         
-        return ListView(
-          children: notifier.peoples.map((e) => Container()).toList(),
+        return ListView.separated(
+          itemCount: notifier.peoples.length,
+          padding: const EdgeInsets.all(15.0),
+          separatorBuilder: (context, index) => const SizedBox(height: 15.0),
+          itemBuilder: (context, index) {
+            return ItemListPersonWidget(person: notifier.peoples[index]);
+          },
         );
       },
       loading: (context, notifier) =>

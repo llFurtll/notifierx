@@ -33,18 +33,20 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
     final db = await dataSource.getDataSource();
     if (db == null) throw FileException("");
 
-    final List<PersonModel> result = [];
-    final data = db.readAsStringSync();
-    if (Util.isNullOrEmpty(data)) {
+    try {
+      final List<PersonModel> result = [];
+      final data = db.readAsStringSync();
+      if (Util.isNullOrEmpty(data)) {
+        return result;
+      }
+
+      var json = jsonDecode(db.readAsStringSync()) as Map<String, dynamic>;
+      result.add(PersonModel.fromMap(json));
+
       return result;
+    } catch (_) {
+      throw FileException("");
     }
-
-    var json = jsonDecode(db.readAsStringSync()) as Map;
-    json.forEach((key, value) {
-      result.add(PersonModel.fromMap(value));
-    });
-
-    return result;
   }
 
   @override
@@ -58,11 +60,9 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
     final db = await dataSource.getDataSource();
     if (db == null) throw FileException("");
 
-    var json = jsonDecode(db.readAsStringSync()) as Map;
-    json.addAll(person.toJson());
+    final personJson = jsonEncode(person.toJson());
+    db.writeAsStringSync(personJson);
     
-    db.writeAsStringSync(jsonEncode(json));
-
     return person;
   }
 

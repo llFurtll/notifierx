@@ -51,6 +51,8 @@ class _NotifierXObsState<T extends NotifierXListener> extends State<NotifierXObs
 
   @override
   Widget build(BuildContext context) {
+    widget.notifier.context = context;
+
     switch (widget.notifier.state) {
       case NotifierXState.loading:
         if (widget.loading == null) {

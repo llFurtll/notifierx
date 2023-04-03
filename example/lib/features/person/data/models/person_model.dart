@@ -8,7 +8,7 @@ class PersonModel extends Person {
     required super.dataNascimento
   });
 
-  factory PersonModel.fromMap(Map data) {
+  factory PersonModel.fromMap(Map<String, dynamic> data) {
     return PersonModel(
       id: data["id"],
       nome: data["nome"],
@@ -17,9 +17,23 @@ class PersonModel extends Person {
     );
   }
 
-  Map<int, PersonModel> toJson() {
-    final Map<int, PersonModel> data = {};
-    data[id!] = this;
+  factory PersonModel.fromEntity(Person person) {
+    return PersonModel(
+      id: person.id,
+      nome: person.nome,
+      sobrenome: person.sobrenome,
+      dataNascimento: person.dataNascimento
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {
+      "id": id,
+      "nome": nome,
+      "sobrenome": sobrenome,
+      "dataNascimento":
+        dataNascimento?.toIso8601String() ?? DateTime.now().toIso8601String()
+    };
 
     return data; 
   }

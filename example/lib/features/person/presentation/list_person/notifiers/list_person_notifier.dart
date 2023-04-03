@@ -24,7 +24,10 @@ class ListPersonNotifier extends NotifierXListener {
   @override
   void onInit() {
     super.onInit();
+    _loadPeoples();
+  }
 
+  void _loadPeoples() {
     Future.value()
       .then((_) => setLoading())
       .then((_) => getFindAllPerson(NoParams()))
@@ -37,6 +40,15 @@ class ListPersonNotifier extends NotifierXListener {
         messageError = error.message;
         setError();
       });
+  }
+  
+  @override
+  void receive(String message) {
+    switch (message) {
+      case "load":
+        _loadPeoples();
+        break;
+    }
   }
 }
 
