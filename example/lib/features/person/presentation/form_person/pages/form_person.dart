@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:notifierx/notifierx_obs_screen.dart';
 
-class FormPerson extends StatelessWidget {
+import '../notifiers/form_person_notifier.dart';
+
+class FormPerson extends NotifierXObsScreen<FormPersonNotifier> {
   const FormPerson({super.key});
 
   @override
@@ -36,6 +39,7 @@ class FormPerson extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: Form(
+          key: notifier.formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

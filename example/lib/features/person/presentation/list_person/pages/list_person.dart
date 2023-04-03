@@ -24,7 +24,6 @@ class ListPerson extends StatelessWidget {
 
   NotifierXObs _buildBody(BuildContext context) {
     return NotifierXObs<ListPersonNotifier>(
-      context: context,
       build: (context, notifier) {
         if (notifier.peoples.isEmpty) {
           return const Center(
