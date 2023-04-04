@@ -21,6 +21,21 @@ class FormPersonNotifier extends NotifierXListener {
   final formKey = GlobalKey<FormState>();
   final formPerson = FormPerson();
 
+  bool isEdit = false;
+
+  @override
+  void onDependencies() {
+    super.onDependencies();
+    final person = ModalRoute.of(context)!.settings.arguments as Person?;
+    if (person != null) {
+      formPerson.fromEntity(person);
+      isEdit = true;
+    } else {
+      formPerson.clear();
+      isEdit = false;
+    }
+  }
+
   void save() async {
     if (formKey.currentState?.validate() ?? false) {
       formKey.currentState!.save();
@@ -83,6 +98,20 @@ class FormPerson {
       sobrenome: sobrenome,
       dataNascimento: dataNascimento
     );
+  }
+
+  void fromEntity(Person person) {
+    id = person.id;
+    nome = person.nome;
+    sobrenome = person.sobrenome;
+    dataNascimento = person.dataNascimento;
+  }
+
+  void clear() {
+    id = null;
+    nome = null;
+    sobrenome = null;
+    dataNascimento = null;
   }
 }
 

@@ -19,12 +19,12 @@ class NotifierXMediator {
     _listeners.remove(listener);
   }
 
-  void send<T extends NotifierXListener>(String message) {
+  void send<T extends NotifierXListener>(String message, { dynamic value }) {
     final filteredListener = _listeners.whereType<T>();
 
     if (filteredListener.isEmpty) return;
 
     final listener = filteredListener.first;
-    listener.receive(message);
+    listener.receive(message, value);
   }
 }

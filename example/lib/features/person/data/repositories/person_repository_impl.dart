@@ -30,4 +30,14 @@ class PersonRepositoryImpl extends PersonRepository {
       return Left(FileFailure(message: "erro-insert-person"));
     }
   }
+
+  @override
+  Future<Result<Failure, void>> delete(int id) async {
+    try {
+      final result = await dataSource.delete(id: id);
+      return Right(result);
+    } on FileException catch (_) {
+      return Left(FileFailure(message: "erro-delete-person"));
+    }
+  }
 }

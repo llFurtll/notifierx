@@ -27,6 +27,7 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
     try {
       var json = jsonDecode(db.readAsStringSync()) as List<dynamic>;
       json.removeWhere((element) => element["id"] == id);
+      db.writeAsString(jsonEncode(json));
     } catch (_) {
       throw FileException("");
     }

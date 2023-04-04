@@ -36,5 +36,5 @@ abstract class NotifierXListener extends ChangeNotifier {
     notifyListeners();
   }
 
-  void receive(String message) {}
+  void receive(String message, dynamic value) {}
 }

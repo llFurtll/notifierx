@@ -9,7 +9,7 @@ class FormPerson extends NotifierXObsScreen<FormPersonNotifier> {
   @override
   Widget builder(BuildContext context) {
     return AlertDialog(
-      title: const Text("Cadastrar nova pessoa"),
+      title: Text(notifier.isEdit ? "Editar pessoa" : "Cadastrar nova pessoa"),
       actions: _buildActions(context),
       content: _buildContent(),
     );
@@ -44,6 +44,7 @@ class FormPerson extends NotifierXObsScreen<FormPersonNotifier> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
+                initialValue: notifier.formPerson.nome,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   hintText: "Nome"
@@ -53,6 +54,7 @@ class FormPerson extends NotifierXObsScreen<FormPersonNotifier> {
               ),
               const SizedBox(height: 30.0),
               TextFormField(
+                initialValue: notifier.formPerson.sobrenome,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   hintText: "Sobrenome"
@@ -62,6 +64,7 @@ class FormPerson extends NotifierXObsScreen<FormPersonNotifier> {
               ),
               const SizedBox(height: 30.0),
               TextFormField(
+                initialValue: notifier.formPerson.dataNascimento?.toIso8601String(),
                 keyboardType: TextInputType.datetime,
                 decoration: const InputDecoration(
                   hintText: "Data de nascimento"
