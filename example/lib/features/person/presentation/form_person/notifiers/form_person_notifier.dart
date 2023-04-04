@@ -33,7 +33,10 @@ class FormPersonNotifier extends NotifierXListener {
           )
         ))
         .then((_) => mediator.send<ListPersonNotifier>("load"))
-        .then((_) => Navigator.of(context).pop());  
+        .then((_) => Navigator.of(context).pop())
+        .catchError((error) => {
+          
+        });
     }
   }
 

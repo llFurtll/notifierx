@@ -8,7 +8,7 @@ class PersonModel extends Person {
     required super.dataNascimento
   });
 
-  factory PersonModel.fromMap(Map<String, dynamic> data) {
+  factory PersonModel.fromMap(Map data) {
     return PersonModel(
       id: data["id"],
       nome: data["nome"],

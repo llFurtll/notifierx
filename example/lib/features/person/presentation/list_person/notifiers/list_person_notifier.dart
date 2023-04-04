@@ -46,6 +46,7 @@ class ListPersonNotifier extends NotifierXListener {
   void receive(String message) {
     switch (message) {
       case "load":
+        peoples.clear();
         _loadPeoples();
         break;
     }

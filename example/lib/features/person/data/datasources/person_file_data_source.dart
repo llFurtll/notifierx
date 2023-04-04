@@ -40,8 +40,10 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
         return result;
       }
 
-      var json = jsonDecode(db.readAsStringSync()) as Map<String, dynamic>;
-      result.add(PersonModel.fromMap(json));
+      var json = jsonDecode(db.readAsStringSync()) as List<dynamic>;
+      for (Map item in json) {
+        result.add(PersonModel.fromMap(item));
+      }
 
       return result;
     } catch (_) {
@@ -60,10 +62,21 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
     final db = await dataSource.getDataSource();
     if (db == null) throw FileException("");
 
-    final personJson = jsonEncode(person.toJson());
-    db.writeAsStringSync(personJson);
-    
-    return person;
+    try {
+      final data = db.readAsStringSync();
+      late final List<dynamic> fileJson;
+      if (Util.isNullOrEmpty(data)) {
+        fileJson = [];
+      } else {
+        fileJson = jsonDecode(data) as List<dynamic>;
+      }
+      fileJson.add(person.toJson());
+      db.writeAsStringSync(jsonEncode(fileJson));
+      
+      return person;
+    } catch (_) {
+      throw FileException("");
+    }
   }
 
   @override
