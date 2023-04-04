@@ -66,7 +66,10 @@ class ListPerson extends StatelessWidget {
 
   FloatingActionButton _buildFab(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => showDialog(context: context, builder: (innerContext) => const FormPerson()),
+      onPressed: () => showDialog(
+        context: context,
+        builder: (innerContext) => const FormPerson()
+      ),
       child: const Icon(Icons.add),
     );
   }

@@ -24,8 +24,12 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
     final db = await dataSource.getDataSource();
     if (db == null) throw FileException("");
 
-    var json = jsonDecode(db.readAsStringSync());
-    json.remove(id);
+    try {
+      var json = jsonDecode(db.readAsStringSync()) as List<dynamic>;
+      json.removeWhere((element) => element["id"] == id);
+    } catch (_) {
+      throw FileException("");
+    }
   }
 
   @override
@@ -52,9 +56,17 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
   }
 
   @override
-  Future<PersonModel> findById({required int id}) {
-    // TODO: implement findById
-    throw UnimplementedError();
+  Future<PersonModel> findById({required int id}) async {
+    final db = await dataSource.getDataSource();
+    if (db == null) throw FileException("");
+
+    try {
+      var json = jsonDecode(db.readAsStringSync()) as List<dynamic>;
+      final index = json.indexWhere((element) => element["id"] == id);
+      return json[index];
+    } catch (_) {
+      throw FileException("");
+    }
   }
 
   @override
