@@ -6,4 +6,5 @@ abstract class PersonRepository {
   Future<Result<Failure, List<Person>>> findAll();
   Future<Result<Failure, Person>> insert(Person person);
   Future<Result<Failure, void>> delete(int id);
+  Future<Result<Failure, Person>> findById({required int id});
 }

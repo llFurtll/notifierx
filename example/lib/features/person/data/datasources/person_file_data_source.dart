@@ -64,7 +64,7 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
     try {
       var json = jsonDecode(db.readAsStringSync()) as List<dynamic>;
       final index = json.indexWhere((element) => element["id"] == id);
-      return json[index];
+      return PersonModel.fromMap(json[index]);
     } catch (_) {
       throw FileException("");
     }
@@ -97,5 +97,4 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
     // TODO: implement update
     throw UnimplementedError();
   }
-
 }

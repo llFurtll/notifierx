@@ -8,14 +8,17 @@ import '../../../../../core/utils/util.dart';
 import '../../../data/datasources/person_file_data_source.dart';
 import '../../../data/repositories/person_repository_impl.dart';
 import '../../../domain/entities/person.dart';
+import '../../../domain/usecases/get_find_by_id_person.dart';
 import '../../../domain/usecases/get_save_person.dart';
 import '../../list_person/notifiers/list_person_notifier.dart';
 
 class FormPersonNotifier extends NotifierXListener {
   final GetSavePerson getSavePerson;
+  final GetFindByIdPerson getFindByIdPerson;
 
   FormPersonNotifier({
-    required this.getSavePerson
+    required this.getSavePerson,
+    required this.getFindByIdPerson
   });
 
   final formKey = GlobalKey<FormState>();
@@ -25,15 +28,26 @@ class FormPersonNotifier extends NotifierXListener {
 
   @override
   void onDependencies() {
-    super.onDependencies();
-    final person = ModalRoute.of(context)!.settings.arguments as Person?;
-    if (person != null) {
-      formPerson.fromEntity(person);
-      isEdit = true;
+    final id = ModalRoute.of(context)!.settings.arguments as int?;
+    if (id != null) {
+      _loadPerson(id);
     } else {
       formPerson.clear();
       isEdit = false;
     }
+    super.onDependencies();
+  }
+
+  void _loadPerson(int id) {
+    Future.value()
+      .then((_) => setLoading())
+      .then((_) => Future.delayed(const Duration(milliseconds: 500)))
+      .then((_) => getFindByIdPerson(FindByIdPersonParams(id: id)))
+      .then((value) => value.fold((left) => throw left, (right) => right))
+      .then((value) => formPerson.fromEntity(value))
+      .then((_) => isEdit = true)
+      .then((_) => setReady())
+      .catchError((error) {});
   }
 
   void save() async {
@@ -49,9 +63,7 @@ class FormPersonNotifier extends NotifierXListener {
         ))
         .then((_) => mediator.send<ListPersonNotifier>("load"))
         .then((_) => Navigator.of(context).pop())
-        .catchError((error) => {
-          
-        });
+        .catchError((error) {});
     }
   }
 
@@ -119,8 +131,12 @@ FormPersonNotifier createFormPersonNotifier(List<dynamic> global) {
   final dataSource = PersonFileDataSourceImpl(global.whereType<DataSource<File>>().first);
   final repository = PersonRepositoryImpl(dataSource);
   final getSavePerson = GetSavePerson(repository);
+  final getFindByIdPerson = GetFindByIdPerson(repository);
 
-  final notifier = FormPersonNotifier(getSavePerson: getSavePerson);
+  final notifier = FormPersonNotifier(
+    getSavePerson: getSavePerson,
+    getFindByIdPerson: getFindByIdPerson
+  );
 
   return notifier;
 }

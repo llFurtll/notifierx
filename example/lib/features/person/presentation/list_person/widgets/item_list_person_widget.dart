@@ -19,7 +19,7 @@ class ItemListPersonWidget extends StatelessWidget {
         context: context,
         builder: (innerContext) => const FormPerson(),
         routeSettings: RouteSettings(
-          arguments: person
+          arguments: person.id
         )
       ),
       child: Container(

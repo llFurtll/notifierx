@@ -15,6 +15,11 @@ class FormPerson extends NotifierXObsScreen<FormPersonNotifier> {
     );
   }
 
+  @override
+  Widget loading(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
+  }
+
   List<Widget> _buildActions(BuildContext context) {
     return [
       TextButton(

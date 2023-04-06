@@ -40,4 +40,14 @@ class PersonRepositoryImpl extends PersonRepository {
       return Left(FileFailure(message: "erro-delete-person"));
     }
   }
+
+  @override
+  Future<Result<Failure, Person>> findById({required int id}) async {
+    try {
+      final result = await dataSource.findById(id: id);
+      return Right(result);
+    } on FileException catch (_) {
+      return Left(FileFailure(message: "erro-find-person"));
+    }
+  }
 }
