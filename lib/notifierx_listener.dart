@@ -3,6 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'notifierx_mediator.dart';
 import 'notifierx_state.dart';
 
+/// Classe que você deverá erdar ao criar um Notifier para seu Widget,
+/// por esse meio é possível realizar as alterações de estado para
+/// loading/ready/error, também conterá todas as regras de negócio
+/// do seu Widget. Aqui também é possível configurar as chamadas
+/// que seu Notifier irá receber e quais ações tomar após determinada
+/// chamada.
 abstract class NotifierXListener extends ChangeNotifier {
   final mediator = NotifierXMediator();
 

@@ -3,6 +3,20 @@ import 'package:flutter/widgets.dart';
 import 'notifierx_context.dart';
 import 'notifierx_listener.dart';
 
+/// InheritedWidget responsável em possuíor as dependências globais e
+/// todos nos NotiferXListener da aplicação, para ser possível posteriomente
+/// ser recuperado.
+/// 
+/// globalDependencies: Seria todas as dependências globais da aplicação, exemplo:
+/// Caso você tenha alguma dependência onde todos os repository do seu sistema
+/// necessita ter, nisso adicione nas dependências globais onde posteriomente
+/// você irá utilizar para injeção de dependência.
+/// 
+/// depencencies: Aqui ficará todos os NotifierXListener da aplicação, nesse caso
+/// é uma lista de função, onde para cada tela que você tenha um NotifierXListener
+/// deverá criar uma função onde retorna a instância do mesmo, nessa função
+/// você terá acesso as dependências globais da aplicação, caso precise de uma
+/// que injete em seu Notifier.
 class NotifierXDependencies extends InheritedWidget {
   final List<NotifierXListener Function(List<dynamic> global)> depencencies;
   final List<dynamic> globalDependencies;

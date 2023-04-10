@@ -1,5 +1,9 @@
 import 'notifierx_listener.dart';
 
+/// Um mediator para ser possível disparar chamadas para determinado
+/// Notifier, assim é possível em determinados locais da aplicação disparar
+/// mensagem de evento para um determinado Notifier e nisso realizar alguma
+/// alteração de estado por exemplo.
 class NotifierXMediator {
   NotifierXMediator._privateConstructor();
 
