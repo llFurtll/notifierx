@@ -1,7 +1,7 @@
 import '../../domain/entities/person.dart';
 
 class PersonModel extends Person {
-  const PersonModel({
+  PersonModel({
     required super.id,
     required super.nome,
     required super.sobrenome,

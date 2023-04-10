@@ -28,7 +28,7 @@ class FormPerson extends NotifierXObsScreen<FormPersonNotifier> {
       ),
       TextButton(
         onPressed: notifier.save,
-        child: const Text("Cadastrar")
+        child: Text(notifier.isEdit ? "Atualizar" : "Cadastrar")
       )
     ];
   }

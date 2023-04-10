@@ -53,7 +53,6 @@ class FormPersonNotifier extends NotifierXListener {
   void save() async {
     if (formKey.currentState?.validate() ?? false) {
       formKey.currentState!.save();
-      formPerson.id = UniqueKey().hashCode;
 
       Future.value()
         .then((_) => getSavePerson(

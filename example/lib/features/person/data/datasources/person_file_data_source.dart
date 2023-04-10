@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+
 import '../../../../core/exceptions/exceptions.dart';
 import '../../../../core/datasource/data_source.dart';
 import '../../../../core/utils/util.dart';
@@ -76,6 +78,7 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
     if (db == null) throw FileException("");
 
     try {
+      person.id = UniqueKey().hashCode;
       final data = db.readAsStringSync();
       late final List<dynamic> fileJson;
       if (Util.isNullOrEmpty(data)) {
@@ -93,8 +96,27 @@ class PersonFileDataSourceImpl extends PersonFileDataSource {
   }
 
   @override
-  Future<PersonModel> update({required PersonModel person}) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<PersonModel> update({required PersonModel person}) async {
+    final db = await dataSource.getDataSource();
+    if (db == null) throw FileException("");
+
+    try {
+      final data = db.readAsStringSync();
+      late final List<dynamic> fileJson;
+      if (Util.isNullOrEmpty(data)) {
+        fileJson = [];
+      } else {
+        fileJson = jsonDecode(data) as List<dynamic>;
+      }
+      int index = fileJson.indexWhere((element) => element["id"] == person.id);
+      if (index > -1) {
+        fileJson[index] = person.toJson();
+      }
+      db.writeAsStringSync(jsonEncode(fileJson));
+    
+      return person;
+    } catch (_) {
+      throw FileException("");
+    }
   }
 }

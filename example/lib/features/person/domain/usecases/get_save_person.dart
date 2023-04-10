@@ -12,7 +12,13 @@ class GetSavePerson extends UseCase<Person, SavePersonParams> {
 
   @override
   Future<Result<Failure, Person>> call(SavePersonParams params) async {
-    final result = await repository.insert(params.person);
+    final person = params.person;
+    late Result<Failure, Person> result;
+    if (person.id == null) {
+      result = await repository.insert(params.person);
+    } else {
+      result = await repository.update(params.person);
+    }
     
     return result.fold(
       (left) => Left(UseCaseFailure(message: pt[left.message]!)),

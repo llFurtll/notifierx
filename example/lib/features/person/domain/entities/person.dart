@@ -1,10 +1,10 @@
 class Person {
-  final int? id;
+  int? id;
   final String? nome;
   final String? sobrenome;
   final DateTime? dataNascimento;
 
-  const Person({
+  Person({
     required this.id,
     required this.nome,
     required this.sobrenome,
