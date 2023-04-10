@@ -12,7 +12,6 @@ import '../../../domain/usecases/get_find_all_person.dart';
 class ListPersonNotifier extends NotifierXListener {
   final GetFindAllPerson getFindAllPerson;
   final GetDeletePerson getDeletePerson;
-
   ListPersonNotifier({
     required this.getFindAllPerson,
     required this.getDeletePerson
@@ -69,7 +68,9 @@ class ListPersonNotifier extends NotifierXListener {
 }
 
 ListPersonNotifier createListPersonNotifier(List<dynamic> global) {
-  final dataSource = PersonFileDataSourceImpl(global.whereType<DataSource<File>>().first);
+  final dataSource = PersonFileDataSourceImpl(
+    dataSource: global.whereType<DataSource<File>>().first
+  );
   final repository = PersonRepositoryImpl(dataSource);
 
   final getFindAllPerson = GetFindAllPerson(repository);

@@ -74,8 +74,8 @@ class FormPersonNotifier extends NotifierXListener {
       case "sobrenome":
         formPerson.sobrenome = value;
         break;
-      case "data":
-        formPerson.dataNascimento = DateTime.parse(value!);
+      case "date":
+        formPerson.dataNascimento = value!;
         break;
     }
   }
@@ -93,7 +93,7 @@ class FormPerson {
   int? id;
   String? nome;
   String? sobrenome;
-  DateTime? dataNascimento;
+  String? dataNascimento;
 
   FormPerson({
     this.id,
@@ -127,7 +127,9 @@ class FormPerson {
 }
 
 FormPersonNotifier createFormPersonNotifier(List<dynamic> global) {
-  final dataSource = PersonFileDataSourceImpl(global.whereType<DataSource<File>>().first);
+  final dataSource = PersonFileDataSourceImpl(
+    dataSource: global.whereType<DataSource<File>>().first
+  );
   final repository = PersonRepositoryImpl(dataSource);
   final getSavePerson = GetSavePerson(repository);
   final getFindByIdPerson = GetFindByIdPerson(repository);

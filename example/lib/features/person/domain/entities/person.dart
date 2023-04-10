@@ -2,7 +2,7 @@ class Person {
   int? id;
   final String? nome;
   final String? sobrenome;
-  final DateTime? dataNascimento;
+  final String? dataNascimento;
 
   Person({
     required this.id,

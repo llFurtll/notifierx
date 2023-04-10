@@ -22,18 +22,24 @@ abstract class NotifierXListener extends ChangeNotifier {
   void onDependencies() {}
 
   void setLoading() {
-    state = NotifierXState.loading;
-    notifyListeners();
+    if (state != NotifierXState.loading) {
+      state = NotifierXState.loading;
+      notifyListeners();
+    }
   }
 
   void setReady() {
-    state = NotifierXState.ready;
-    notifyListeners();
+    if (state != NotifierXState.ready) {
+      state = NotifierXState.ready;
+      notifyListeners();
+    }
   }
 
   void setError() {
-    state = NotifierXState.error;
-    notifyListeners();
+    if (state != NotifierXState.error) {
+      state = NotifierXState.error;
+      notifyListeners();
+    }
   }
 
   void receive(String message, dynamic value) {}

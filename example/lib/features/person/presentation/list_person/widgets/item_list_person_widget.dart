@@ -50,7 +50,7 @@ class ItemListPersonWidget extends StatelessWidget {
             ),
             const SizedBox(height: 5.0),
             Text(
-              person.dataNascimento?.toIso8601String() ?? "Sem data de nascimento",
+              person.dataNascimento ?? "Sem data de nascimento",
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,

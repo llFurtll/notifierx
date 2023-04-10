@@ -19,7 +19,9 @@ abstract class PersonFileDataSource {
 class PersonFileDataSourceImpl extends PersonFileDataSource {
   final DataSource<File> dataSource;
 
-  PersonFileDataSourceImpl(this.dataSource);
+  PersonFileDataSourceImpl({
+    required this.dataSource
+  });
 
   @override
   Future<void> delete({required int id}) async {

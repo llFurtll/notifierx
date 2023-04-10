@@ -13,7 +13,7 @@ class PersonModel extends Person {
       id: data["id"],
       nome: data["nome"],
       sobrenome: data["sobrenome"],
-      dataNascimento: DateTime.parse(data["dataNascimento"])
+      dataNascimento: data["dataNascimento"]
     );
   }
 
@@ -31,8 +31,7 @@ class PersonModel extends Person {
       "id": id,
       "nome": nome,
       "sobrenome": sobrenome,
-      "dataNascimento":
-        dataNascimento?.toIso8601String() ?? DateTime.now().toIso8601String()
+      "dataNascimento": dataNascimento ?? DateTime.now().toIso8601String()
     };
 
     return data; 

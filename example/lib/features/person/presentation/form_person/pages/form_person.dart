@@ -69,7 +69,7 @@ class FormPerson extends NotifierXObsScreen<FormPersonNotifier> {
               ),
               const SizedBox(height: 30.0),
               TextFormField(
-                initialValue: notifier.formPerson.dataNascimento?.toIso8601String(),
+                initialValue: notifier.formPerson.dataNascimento,
                 keyboardType: TextInputType.datetime,
                 decoration: const InputDecoration(
                   hintText: "Data de nascimento"
