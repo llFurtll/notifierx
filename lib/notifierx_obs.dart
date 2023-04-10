@@ -5,6 +5,8 @@ import 'notifierx_dependencies.dart';
 import 'notifierx_listener.dart';
 import 'notifierx_state.dart';
 
+/// Widget observável, caso em um determinado lugar da aplicação deseja
+/// ter um notifier e atualizar o estado do widget caso tenha alguma mudança.
 class NotifierXObs<T extends NotifierXListener> extends StatefulWidget {
   final Widget Function(BuildContext context, T notifier)? loading;
   final Widget Function(BuildContext context, T notifier)? error;

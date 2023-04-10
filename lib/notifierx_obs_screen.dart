@@ -5,6 +5,9 @@ import 'notifierx_context.dart';
 import 'notifierx_dependencies.dart';
 import 'notifierx_listener.dart';
 
+/// Essa classe serve para criar um Widget encapsular todos os Widgets e realizar
+/// alterações de estado quando necessário, exemplo: FloatActionButton, AppBar
+/// entre outros.
 abstract class NotifierXObsScreen<T extends NotifierXListener> extends StatelessWidget {
   const NotifierXObsScreen({
     super.key
