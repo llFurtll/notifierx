@@ -28,7 +28,7 @@ Conforme vocês podem ver em meu projeto de exemplo, eu criei uma estrutura no m
 * <b>pages: </b> Aqui ficará suas Views, onde cada uma terá um Notifier.
 * <b>widgets: </b> Os Widgets que você deseja criar para utilizar em suas Views.
 
-Outro ponto interessante, que nesse plugin eu decidi criar um Widget específico onde o mesmo conterá um Notifier e ficará escutando as mudanças e realizando a alteraçõa do estado conforme você deseja, nesse caso hoje você pode alterar o estado do seu Widget para três tipos:
+Outro ponto interessante, que nesse plugin eu decidi criar um Widget específico onde o mesmo conterá um Notifier e ficará escutando as mudanças e realizando a alteraç do estado conforme você deseja, nesse caso hoje você pode alterar o estado do seu Widget para três tipos:
 * <b>loading: </b> Nesse momento o seu Widget está no estado de "carregando", nesse momento você pode retornar se quiser um CiruclarProgressIndicator.
 * <b>error: </b> Nesse momento o seu Widget está no estado de "erro", nesse momento você poderia mostrar ao usuário um AlertDialog explicando o motivo de erro e renderizando em tela alguma mensagem ou botão de atualizar a View novamente.
 * <b>ready: </b> Nesse momento o seu Widget está "finalizado", nesse caso não aconteceu nenhuma falha no processo e os dados já foram carregados, nisso você pode retornar as informações que você desejar.
