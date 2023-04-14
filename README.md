@@ -51,8 +51,8 @@ Vamos entender os métodos onInit, onClose e o onDependencies.
     void onDependencies() {}
 ```
 Esses três métodos ao estender a classe <b>NotifierXListener</b>, você poderá realizar a sobrecarga dos mesmos, vamos entendê-los:
-* <b>onInit: </b> Esse método é executado no initState do Widget. Um ponto importante que quando vocẽ cria um Notifier a partir desse momento ele estará configurado para receber chamadas, explicaremos isso mais a adiante.
-* <b>onClose: </b> Esse método é executado no dipose do Widget. Um ponto importante, que no momento de ser destruído removemos ele também da lista de Listeners para não receber mais chamadas.
+* <b>onInit: </b> Esse método é executado no initState do Widget. Um ponto importante que quando você cria um Notifier a partir desse momento ele estará configurado para receber chamadas, explicaremos isso mais a adiante.
+* <b>onClose: </b> Esse método é executado no dipose do Widget. Um ponto importante, que no momento de ser destruído removemos ele também da lista de Notifiers para não receber mais chamadas.
 * <b>onDependencies: </b> Esse método executará no didChangeDependencies do Widget, recomendado utilizar esse método caso deseje buscar algum parâmetro da rota por exemplo que depende do contexto já ter sido criado.
 
 Você também pode notar que seu Notifier herdará três métodos:
@@ -79,20 +79,22 @@ Você também pode notar que seu Notifier herdará três métodos:
     }
 ```
 
-Esses três métodos são muito simples, basicamente eles irão alterar o estado do seu Widget para "loading", "erro" ou "ready" e nisso o Widget se encarregará de chamar as funções de construção que você deseja exibir para o usuário dependendo do estado que você chamou.
+Esses três métodos são muito simples, basicamente eles irão alterar o estado do seu Widget para "loading", "error" ou "ready" e nisso o Widget se encarregará de chamar as funções de construção que você deseja exibir para o usuário dependendo do estado que você chamou.
 
 Por fim temos o método receive:
 ```dart
     void receive(String message, dynamic value) {}
 ```
 
-Esse método você pode sobescrever o mesmo e definir quais ações tomar caso algum outro Notifier dispare uma mensagem no Notifier correspondente, por exemplo, você realizou um cadastro de um registro e deseje que sua listagem recarregue as informações.
+Esse método você pode sobescrever o mesmo e definir quais ações tomar caso algum outro Notifier dispare uma mensagem para o Notifier correspondente, por exemplo, você realizou um cadastro de um registro e deseje que sua listagem recarregue as informações.
+
 Esse método possuí 2 argumentos:
 * <b>message: </b> Qual a mensagem que você deseja emitir ao Notifier, exemplo "load".
 * <b>value: </b> Caso deseje compartilhar um valor de um Notifier para o outro.
 
 # NotifierXObs
-Esse é o Widget encarregado em gerenciar as alterações de loading, error e ready, então em seu Notifier a partir do momento que você começar uma chamada para uma banco local por exemplo e chamar o método setLoading, automaticamente o NotifierXObs identificará a alteração de estado e exibir ao usuário o que você desejar, segue um exemplo:
+Esse é o Widget encarregado em gerenciar as alterações de loading, error e ready, então em seu Notifier a partir do momento que você começar uma chamada para uma banco local por exemplo e chamar o método setLoading, automaticamente o <b>NotifierXObs</b> identificará a alteração de estado e exibir ao usuário o que você desejar, segue um exemplo:
+
 ```dart
     NotifierXObs<ListPersonNotifier>(
       build: (context, notifier) {
@@ -134,13 +136,14 @@ Esse é o Widget encarregado em gerenciar as alterações de loading, error e re
     );
 ```
 
-Como você pode ver, o NotifierXObs apenas solicita que você passe no argumento o método build, onde você terá acesso ao contexto e o seu Notifier, pode reparar também que eu passo para ele qual será o Notifier que ele deverá buscar nas dependências, não se preocupe, vou explicar depois como configurar as dependências, nisso também você pode passar os argumentos não obrigatórios como error e loading, então quando gerar algum erro no processo automaticamente o método de error será chamado e uma mensagem será exibida ao usuário, caso esteja no estado de loading um CircularProgressIndicator será exibido ao usuário, quando estiver os dados carregado chamará o método build.
+Como você pode ver, o <b>NotifierXObs</b> apenas solicita que você passe no argumento o método build, onde você terá acesso ao Contexto e o seu Notifier, pode reparar também que eu passo para ele qual será o Notifier que ele deverá buscar nas dependências, não se preocupe, vou explicar depois como configurar as dependências, nisso também você pode passar os argumentos não obrigatórios como error e loading, então quando gerar algum erro no processo automaticamente o método de error será chamado e uma mensagem será exibida ao usuário, caso esteja no estado de loading um CircularProgressIndicator será exibido ao usuário, quando estiver os dados carregado chamará o método build.
 
 # NotifierXObsScreen
 Essa classe também é abstrata, eu criei ela para que o desenvolvedor possa criar uma View estendendo a partir dela e nisso
 ter acesso ao Notifier de forma mais global vamos se dizer assim, no caso por exemplo, você tem um FloatingActionButton em sua View e você deseja disparar uma ação no Notifier, em vez de utilizar os disparos de mensagens para o Notifier específico você já terá acesso de forma global vamos se dizer assim ao Notifier da View correspondente.
 
 Nessa classe você só será obrigado a implementar o método builder, segue exemplo:
+
 ```dart
     class FormPerson extends NotifierXObsScreen<FormPersonNotifier> {
         const FormPerson({super.key});
@@ -148,15 +151,17 @@ Nessa classe você só será obrigado a implementar o método builder, segue exe
         @override
         Widget builder(BuildContext context) {
             return AlertDialog(
-            title: Text(notifier.isEdit ? "Editar pessoa" : "Cadastrar nova pessoa"),
-            actions: _buildActions(context),
-            content: _buildContent(),
-        );
+                title: Text(notifier.isEdit ? "Editar pessoa" : "Cadastrar nova pessoa"),
+                actions: _buildActions(context),
+                content: _buildContent(),
+            );
+        }
     }
 ```
 Como você pode notar, na assinatura da classe você deverá passar também ao <b>NotifierXObsScreen</b> qual Notifier ele deverá buscar as alterações.
 
 E como explicado anteriomente nessa minha View eu tenho alguns botões de ações, onde também terão acesso ao Notifier.
+
 ```dart
     List<Widget> _buildActions(BuildContext context) {
         return [
@@ -174,8 +179,8 @@ E como explicado anteriomente nessa minha View eu tenho alguns botões de açõe
 Como você pode notar, o meu TextButton está chamando o método save do Notifier, e também tenho acesso a variábel isEdit, para validar se no momento está realizando uma edição ou um cadastro.
 
 # NotifierXMediator
-Essa classe é um mediador entre os Notifiers, onde você pode disparar eventos de um Notifier para outro, é bem simples de utilizar, segue um exemplo:
-No seu Notifier você deverá sobescrever o método receive:
+Essa classe é um mediador entre os Notifiers, onde você pode disparar eventos de um Notifier para outro, é bem simples de utilizar, no seu Notifier você deverá sobescrever o método receive:
+
 ```dart
     @override
     void receive(String message, dynamic value) {
@@ -191,13 +196,16 @@ No seu Notifier você deverá sobescrever o método receive:
 ```
 
 Você pode notar que meu Notifier pode receber duas mensagens, load e delete, e conforme a mensagem eu disparo coisas diferentes, agora veja como chamar:
+
 ```dart
     mediator.send<ListPersonNotifier>("load")
 ```
+
 Todo Notifier que você cria já tem acesso ao mediador, nisso você deverá chamar o método send passando para ele qual Notifier ele deverá buscar, nisso você passa a mensagem, que é o argumento obrigatório da função, caso também desejar pode passar um segundo argumento nomeado que é o valor que deseja enviar ao Notifier.
 
 # Configurando as dependências
 Bom esse é o momento de configurar as dependências, lá no método main da sua aplicação, antes de retornar o MaterialApp você irá retornar a classe <b>NotifierXDependencies</b>, segue exemplo:
+
 ```dart
     void main() => runApp(
         NotifierXDependencies(
@@ -213,6 +221,7 @@ Bom esse é o momento de configurar as dependências, lá no método main da sua
     );
 ```
 Como você pode ver no meu exemplo, existem dois argumentos, o primeiro seria a configuração das dependências globais da sua aplicação e o segundo seriam todos os Notifiers da sua aplicação, bom conforme meu projeto de exemplo, eu tenho essas dependências globais, no caso crie uma função em seu projeto onde você retornará uma lista de dependências, segue o meu exemplo:
+
 ```dart
     List<dynamic> create() {
         List<dynamic> dependencies = [];
@@ -223,8 +232,9 @@ Como você pode ver no meu exemplo, existem dois argumentos, o primeiro seria a 
         return dependencies;
     }
 ```
-No meu projeto eu configurei duas dependências globais, uma é o PathProvider e o outro um DataSource que salvar/le as informações do meu aplicativo em um arquivo.
-Para os Notifiers eu segui o seguinte padrão, para todo Notifier que eu criar no mesmo arquivo eu crio uma função que irá retornar ele com as dependências, segue o exemplo do projeto, vamos olhar meu Notifier da listagem?
+No meu projeto eu configurei duas dependências globais, uma é o PathProvider e o outro um DataSource que salva/lê as informações do meu aplicativo em um arquivo.
+Para os Notifiers eu segui o seguinte padrão, para todo Notifier que eu criar no mesmo arquivo eu crio uma função que irá retornar uma instância do Notifier com as dependências configuradas, segue o exemplo do projeto, vamos olhar meu Notifier da listagem:
+
 ```dart
     class ListPersonNotifier extends NotifierXListener {
         final GetFindAllPerson getFindAllPerson;
@@ -253,14 +263,15 @@ Para os Notifiers eu segui o seguinte padrão, para todo Notifier que eu criar n
         return notifier;
     }
 ```
+
 Como você pode notar meu Notifier depende de dois casos de uso, nisso eu criei um método que retorna a instância dele, e você pode notar que nesse método existe um argumento chamado global, exatamente, esse argumento será repassado a sua função lá no <b>NotifierXDependencies</b>, nisso ele irá chamar sua função e armazenar seu Notifier nas dependências da aplicação, nisso você terá acesso as dependências globais da aplicação, no meu caso, meu PersonFileDataSourceImpl depende de um DataSource<File>, que nada mais é que meu FileDataSource que configurei nas dependências globais.
 
 Feito isso você chamará o método que cria seu Notifier lá no argumento dependencies, onde você basicamente passa uma lista de funções e nisso o <b>NotifierXDependencies</b> executa e passa as dependências globais para você.
 
-Aí pronto, suas dependências estarão configuradas e o plugin realizará todos os processos necessários para injetálas e armazená-las na memória para ser possível buscar posteriomente, nisso você não precisará ficar criando novos objetos sempre e sim reaproveitálos nas dependências globais do sistema, como no meu caso uma classe que retornava a conexão com um arquivo.
+Aí pronto, suas dependências estarão configuradas e o plugin realizará todos os processos necessários para injetálas e armazená-las na memória para ser possível buscar posteriomente, nisso você não precisará ficar criando novos objetos sempre e sim reaproveitá-los nas dependências globais do sistema, como no meu caso uma classe que retornava a conexão com um arquivo.
 
 # Considerações finais
-Acredito que não esteja 100%, pode ser que durante o tempo precise realizar melhorias, ter mais conhecimentos para deixar ainda melhor, mas caso você queira colaborar, não hesite em entrar em contato comigo, estou sempre disposto a aprender mais e espero que o plugin ajude a você a desenvolver seus projetos de forma mais simples e eficaz.
+Acredito que de alguma forma esse plugin ajude algum desenvolvedor em determinados pontos, pode ser que durante o tempo precise realizar melhorias, ter mais conhecimentos para deixar ainda melhor, mas caso você queira colaborar, não hesite em entrar em contato comigo, estou sempre disposto a aprender mais e espero que o plugin ajude a você a desenvolver seus projetos de forma mais simples e eficaz.
 
 ### :man:  Dev
 <a href="https://www.linkedin.com/in/daniel-melonari-5413a7197/" target="_blank">
