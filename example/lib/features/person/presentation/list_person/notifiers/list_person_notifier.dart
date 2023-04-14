@@ -12,6 +12,7 @@ import '../../../domain/usecases/get_find_all_person.dart';
 class ListPersonNotifier extends NotifierXListener {
   final GetFindAllPerson getFindAllPerson;
   final GetDeletePerson getDeletePerson;
+  
   ListPersonNotifier({
     required this.getFindAllPerson,
     required this.getDeletePerson
