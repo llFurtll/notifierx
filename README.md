@@ -8,7 +8,7 @@ vários ValueNotifier em minha Controller por exemplo para gerenciar as alteraç
 replicar em tela ao usuário.
 Durante esse tempo comecei a lembrar que no Flutter temos a classe ChangeNotifier, que podemos utilizar para informar
 ao Flutter quando queremos que determinada ação gere uma alteração, então refleti um pouco e pensei em uma forma
-de padronizar de forma organizada uma forma onde o desenvolvedor possa criar um Widget que a qualquer momento possa
+de padronizar de forma organizada onde o desenvolvedor possa criar um Widget que a qualquer momento possa
 alterar seu estado conforme uma determinada circunstância.
 
 ## Observações
