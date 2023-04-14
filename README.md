@@ -16,7 +16,7 @@ Antes de começar, sempre gosto de lembrar que esse plugin está em fase inicial
 modificado algumas partes para melhorar o desenvolvimento dos projetos ao desenvolvedor, ao criar o <b>NotifierX</b> visei sempre a utilizar os recursos do Dart/Flutter para conseguir realizar as injeções de dependências.
 
 ## Pontos a entender
-Conforme vocês podem ver em meu projeto de exemplo, eu criei uma estrutura no momento de criar uma View no Flutter, necessariamente você não preciisa seguir essa estrutura, mas vou explicar para você entender a ideia.
+Conforme vocês podem ver em meu projeto de exemplo, eu criei uma estrutura no momento de criar uma View no Flutter, necessariamente você não precisa seguir essa estrutura, mas vou explicar para você entender a ideia.
 ```
  - presentation
     - list_person
